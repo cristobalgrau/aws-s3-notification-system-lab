@@ -17,3 +17,8 @@ variable "sns-email-sub" {
   description = "email for Notification in the SNS Topic Subscription"
   type        = string
 }
+
+variable "sqs-name" {
+  description = "Name for SQS"
+  type        = string
+}

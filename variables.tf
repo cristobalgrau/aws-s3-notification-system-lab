@@ -5,4 +5,15 @@ variable "aws-region" {
 
 variable "bucket-name" {
   description = "Name for the S3 Bucket"
+  type        = string
+}
+
+variable "sns-name" {
+  description = "Name for SNS Topic"
+  type        = string
+}
+
+variable "sns-email-sub" {
+  description = "email for Notification in the SNS Topic Subscription"
+  type        = string
 }

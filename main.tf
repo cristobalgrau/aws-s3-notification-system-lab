@@ -30,3 +30,14 @@ resource "aws_s3_bucket" "project-bucket" {
   bucket = var.bucket-name
 }
 
+# ==== SNS Section ====
+
+resource "aws_sns_topic" "project_sns" {
+  name = var.sns-name
+}
+
+resource "aws_sns_topic_subscription" "project_sns_target" {
+  topic_arn = aws_sns_topic.project_sns.arn
+  protocol  = "email"
+  endpoint  = var.sns-email-sub
+}

@@ -41,3 +41,13 @@ resource "aws_sns_topic_subscription" "project_sns_target" {
   protocol  = "email"
   endpoint  = var.sns-email-sub
 }
+
+# ==== SQS SECTION ====
+
+resource "aws_sqs_queue" "project_sqs" {
+  name                      = var.sqs-name
+  delay_seconds             = 30
+  max_message_size          = 2048
+  message_retention_seconds = 86400
+  receive_wait_time_seconds = 0
+}

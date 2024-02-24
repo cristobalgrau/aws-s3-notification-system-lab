@@ -22,3 +22,8 @@ variable "sqs-name" {
   description = "Name for SQS"
   type        = string
 }
+
+variable "lambda-name" {
+  description = "Name for the Lambda Function used to trigger SNS and SQS"
+  type        = string
+}

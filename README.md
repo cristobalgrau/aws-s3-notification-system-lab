@@ -20,6 +20,16 @@ Infrastructure system designed to monitor the seamless uploading of files to an 
 | SQS | notification-system-sqs |
 | Lambda | notification-system-lambda |
 
+## Technology Stack
+
+The project leverages a combination of tools and technologies to achieve its goals. The key technologies used include:
+
+<p align="center"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" alt="aws" width="80"/> </a> <a href="https://www.terraform.io/" target="_blank" rel="noreferrer"> <img src="https://www.datocms-assets.com/2885/1620155116-brandhcterraformverticalcolor.svg" alt="terraform" width="80"/> </a> <a href="https://www.python.org/" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png" alt="python" width="70"/> </a></p>
+
+- **AWS Console**: Used for manual setup and configuration of AWS resources.
+- **Terraform**: Employed for Infrastructure as Code (IaC) to provision and manage AWS resources.
+- **Python**: Utilized for scripting the code for the Lambda Function.
+
 ## Budget
 
 The services used in this project are under the free tier

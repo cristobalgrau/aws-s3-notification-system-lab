@@ -26,6 +26,9 @@ provider "aws" {
 
 # ==== DATA SOURCE SECTION ====
 
+data "aws_caller_identity" "current" {}
+
+# Generate a Zip file for the Lambda Function
 data "archive_file" "lambda" {
   type        = "zip"
   source_file = "${path.module}/lambda/lambda_function.py"
@@ -155,4 +158,28 @@ resource "aws_iam_policy" "lambda_logging" {
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
+}
+
+# ==== S3 EVENT NOTIFICATION  SECTION ====
+
+# Creation of S3 Bucket Event notification
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket = aws_s3_bucket.project-bucket.id
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.project_lambda.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+
+    depends_on = [aws_lambda_permission.allow_bucket]
+}
+
+# Adding Notification configuration to the Lambda Function
+resource "aws_lambda_permission" "allow_bucket" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.project_lambda.arn
+  principal     = "s3.amazonaws.com"
+  source_arn    = aws_s3_bucket.project-bucket.arn
+  source_account = data.aws_caller_identity.current.account_id
 }

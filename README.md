@@ -1,5 +1,23 @@
 # S3 File upload Notification System in AWS
 
+#### Table of Contents
+
+- [Overview](#overview)
+- [Architecture Diagram](#architecture-diagram)
+- [Services Used](#services-used)
+- [Technology Stack](#technology-stack)
+- [Budget](#budget)
+- [Lab Deployment](#lab-deployment)
+  * [1. S3 Bucket](#1-s3-bucket)
+  * [2. Simple Notification Service - SNS](#2-simple-notification-service---sns)
+  * [3. Simple Queue Service - SQS](#3-simple-queue-service---sqs)
+  * [4. Lambda Function](#4-lambda-function)
+  * [5. S3 Event notifications](#5-s3-event-notifications)
+- [Lab Testing](#lab-testing)
+- [Troubleshooting](#troubleshooting)
+- [Clean Up](#clean-up)
+
+
 ## Overview
 
 Infrastructure system designed to monitor the seamless uploading of files to an S3 Bucket. The system will trigger a Lambda Function to initiate the processing of the uploaded files:
@@ -43,7 +61,7 @@ First, you have to create the S3 Bucket assigning the name and leaving the defau
 ![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/5942f351-81b4-49fc-93bd-02bbc7e45947)
 
 
-### 2. Simple Notification Service (SNS)
+### 2. Simple Notification Service - SNS
 
 Then, we have to create the SNS Topic and make the subscription for the email that will receive the notifications. 
 
@@ -54,7 +72,7 @@ After creating the SNS Topic we need to create the SNS Subscription in the "Subs
 ![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/f2a01eee-ab5e-44cc-9dda-bb5fd450afba)
 
 
-### 3. Simple Queue Service (SQS)
+### 3. Simple Queue Service - SQS
 
 Same as we did with the SNS, we will create the SQS by choosing the STANDARD Type, because we don't need to keep an order in the messaging delivery. Just assign a name for the SQS and leave the other options as default.
 

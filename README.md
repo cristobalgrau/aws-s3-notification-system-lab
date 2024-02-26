@@ -204,3 +204,4 @@ Here are some examples of errors I found in the Log:
 - Delete SQS
 - Empty and Delete S3 Bucket
 - Delete IAM Role
+- Delete CloudWatch Group

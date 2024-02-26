@@ -17,10 +17,6 @@ env:
 jobs:
   apply:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./back-end
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2

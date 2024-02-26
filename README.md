@@ -14,6 +14,7 @@
   * [4. Lambda Function](#4-lambda-function)
   * [5. S3 Event notifications](#5-s3-event-notifications)
 - [Lab Testing](#lab-testing)
+- [CI/CD Pipeline](#cicd-pipeline)
 - [Troubleshooting](#troubleshooting)
 - [Clean Up](#clean-up)
 
@@ -42,11 +43,12 @@ Infrastructure system designed to monitor the seamless uploading of files to an 
 
 The project leverages a combination of tools and technologies to achieve its goals. The key technologies used include:
 
-<p align="center"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" alt="aws" width="80"/> </a> <a href="https://www.terraform.io/" target="_blank" rel="noreferrer"> <img src="https://www.datocms-assets.com/2885/1620155116-brandhcterraformverticalcolor.svg" alt="terraform" width="80"/> </a> <a href="https://www.python.org/" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png" alt="python" width="70"/> </a></p>
+<p align="center"> <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" alt="aws" width="80"/> </a> <a href="https://www.terraform.io/" target="_blank" rel="noreferrer"> <img src="https://www.datocms-assets.com/2885/1620155116-brandhcterraformverticalcolor.svg" alt="terraform" width="80"/> </a> <a href="https://www.python.org/" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png" alt="python" width="70"/> </a> <a href="https://github.com/features/actions" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/github/explore/2c7e603b797535e5ad8b4beb575ab3b7354666e1/topics/actions/actions.png" alt="python" width="80"/> </a> </p>
 
 - **AWS Console**: Used for manual setup and configuration of AWS resources.
 - **Terraform**: Employed for Infrastructure as Code (IaC) to provision and manage AWS resources.
 - **Python**: Utilized for scripting the code for the Lambda Function.
+- **GitHub Actions:** Powering the Continuous Integration and Continuous Deployment (CI/CD) pipeline, GitHub Actions automates various tasks, such as Terraform initialization and application, in response to code changes.
 
 ## Budget
 
@@ -176,6 +178,64 @@ If you have set everything good, after uploading a file in the S3 Bucket you wil
 You should have your message in the SQS with the Metadata that was set in the previous steps
 
 ![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/48a41050-8233-4a2f-a021-2664c659d778)
+
+## CI/CD Pipeline
+
+This project utilizes a Continuous Integration and Continuous Deployment (CI/CD) pipeline powered by GitHub Actions. The CI/CD pipeline automates the process of initializing and applying Terraform configurations in response to changes pushed to the main branch. Below is the code and an overview of the CI/CD pipeline's key components and functionalities.
+
+```yml
+name: Terraform Apply
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md' 
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # S3 bucket for the Terraform state
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Initialize Terraform
+      run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+    - name: Apply Terraform changes
+      run: terraform apply -auto-approve
+```
+
+**Pipeline Workflow**
+
+1. **GitHub Actions Trigger:**
+   - The CI/CD pipeline is triggered automatically on every push to the main branch excluding the README.md file.
+
+2. **Checkout Code:**
+   - The pipeline starts by checking out the latest code from the repository.
+
+3. **Set up Terraform:**
+   - GitHub Actions sets up the Terraform environment using the `hashicorp/setup-terraform` action.
+
+4. **Initialize Terraform:**
+   - Terraform is initialized with the specified backend configuration.
+
+5. **Apply Terraform Changes:**
+   - The pipeline applies Terraform changes automatically, ensuring that the infrastructure is provisioned or updated accordingly.
+<br>
+
+>ℹ️ Feel free to explore the GitHub Actions workflows located in the [.github/workflows](.github/workflows) directory for more details on the configuration.
 
 ## Troubleshooting
 

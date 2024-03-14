@@ -14,8 +14,9 @@
   * [4. Lambda Function](#4-lambda-function)
   * [5. S3 Event notifications](#5-s3-event-notifications)
 - [Lab Testing](#lab-testing)
-- [CI/CD Pipeline](#cicd-pipeline)
 - [Troubleshooting](#troubleshooting)
+- [Terraform development](#terraform-development)
+- [CI/CD Pipeline](#cicd-pipeline)
 - [Clean Up](#clean-up)
 
 
@@ -179,6 +180,34 @@ You should have your message in the SQS with the Metadata that was set in the pr
 
 ![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/48a41050-8233-4a2f-a021-2664c659d778)
 
+
+## Troubleshooting
+
+If for any reason you are not receiving the notification you can use AWS CloudWatch to verify the logs and see what could be happening.
+
+In the CloudWatch service look for `Log Groups` and inside you will see all the Lambdas you have. Select the Lambda you are using and then you will be able to see the `Log Streams`, one for each time the Lambda runs.
+
+Here are some examples of errors I found in the Log:
+
+**- OS Library was not installed in the lambda code to use the Env Vars**
+
+![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/516c87ff-c3d2-4fd1-8049-813996e32725)
+
+**- Mistyping of ARN values in the Env Vars**
+
+![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/5b44c503-9413-4698-9a91-1ee3aebd5d0e)
+
+**- The S3 Bucket was empty when I ran the Lambda for code testing**
+
+![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/2bd3d2e6-edac-4d91-8005-33088501e2b3)
+
+
+## Terraform Development
+
+Please refer to the [Lab Terraform README](./README_terraform.md) for reference.
+
+<br>
+
 ## CI/CD Pipeline
 
 This project utilizes a Continuous Integration and Continuous Deployment (CI/CD) pipeline powered by GitHub Actions. The CI/CD pipeline automates the process of initializing and applying Terraform configurations in response to changes pushed to the main branch. Below is the code and an overview of the CI/CD pipeline's key components and functionalities.
@@ -237,25 +266,6 @@ jobs:
 
 >ℹ️ Feel free to explore the GitHub Actions workflows located in the [.github/workflows](.github/workflows) directory for more details on the configuration.
 
-## Troubleshooting
-
-If for any reason you are not receiving the notification you can use AWS CloudWatch to verify the logs and see what could be happening.
-
-In the CloudWatch service look for `Log Groups` and inside you will see all the Lambdas you have. Select the Lambda you are using and then you will be able to see the `Log Streams`, one for each time the Lambda runs.
-
-Here are some examples of errors I found in the Log:
-
-**- OS Library was not installed in the lambda code to use the Env Vars**
-
-![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/516c87ff-c3d2-4fd1-8049-813996e32725)
-
-**- Mistyping of ARN values in the Env Vars**
-
-![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/5b44c503-9413-4698-9a91-1ee3aebd5d0e)
-
-**- The S3 Bucket was empty when I ran the Lambda for code testing**
-
-![image](https://github.com/cristobalgrau/aws-s3-notification-system-lab/assets/119089907/2bd3d2e6-edac-4d91-8005-33088501e2b3)
 
 ## Clean Up
 

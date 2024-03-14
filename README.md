@@ -221,7 +221,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'README.md' 
+      - 'README.md'
+      - 'README_terraform.md'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
